@@ -10,12 +10,21 @@ class DeferMap {
 
     this._iterable = iterable;
 
-    this._timeout = 2000;
+    if (typeof opts === 'number') {
+      this._timeout = opts;
+    }
+
+    if (typeof opts === 'undefined') {
+      this._timeout = 300;
+    }
+
+    if (typeof opts === 'object') {
+      this._timeout = opts.timeout;
+    }
 
     this._fn = fn;
 
     this.result = [];
-
 
     return this.init();
   }
@@ -41,7 +50,7 @@ class DeferMap {
           }
         }
 
-        if (key === 0) {
+        if (n === 0) {
           return normal();
         }
 
