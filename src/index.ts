@@ -14,7 +14,7 @@ export interface IDeferMapOptions {
 
 export interface IDeferMap {
   wrapper(value: any, key: number, rs: (res: any) => {}, rj: () => {});
-  init();
+  then(cb: () => any);
 }
 
 export default class DeferMap implements IDeferMap {
@@ -53,8 +53,29 @@ export default class DeferMap implements IDeferMap {
 
     this.fn = fn;
     this.result = [];
+  }
 
-    return this.init();
+  public then(cb) {
+    return new Promise((resolve, reject) => {
+      const exec = new Promise((onFulfill: (res: any) => void , onReject: () => void) => {
+        for (const value of this.iterable) {
+          this.queue.add(this.wrapper(value, this.totalCount, onFulfill, onReject));
+          this.totalCount++;
+        }
+
+        // change to loop check for multiple concurrency
+        if (this.queue.hasNext() && (this.runningCount < this.concurrency)) {
+          this.queue.next().call(null);
+        }
+      });
+
+      exec.then((res) => {
+        cb(res);
+        resolve(res);
+      }, () => {
+        reject();
+      });
+    });
   }
 
   public wrapper(value: any, key: number, rs: (res: any) => void, rj: () => void) {
@@ -86,19 +107,5 @@ export default class DeferMap implements IDeferMap {
         }, this.timeout);
       });
     };
-  }
-
-  public init() {
-    return new Promise((resolve: (res: any) => void , reject: () => void) => {
-      for (const value of this.iterable) {
-        this.queue.add(this.wrapper(value, this.totalCount, resolve, reject));
-        this.totalCount++;
-      }
-
-      // change to loop check for multiple concurrency
-      if (this.queue.hasNext() && (this.runningCount < this.concurrency)) {
-        this.queue.next().call(null);
-      }
-    });
   }
 }
