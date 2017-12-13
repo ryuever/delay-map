@@ -1,6 +1,7 @@
 // rollup.config.js
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
+import typescript from 'rollup-plugin-typescript';
 
 export default {
   input: 'src/index.js',
@@ -9,6 +10,7 @@ export default {
     format: 'cjs'
   },
   plugins: [
+    typescript(),
     resolve(),
     babel({
       babelrc: false,

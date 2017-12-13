@@ -1,4 +1,5 @@
 import DeferMap from '../src';
+// const DeferMap = require('../src');
 
 test('basic', function() {
   let start = +new Date();
