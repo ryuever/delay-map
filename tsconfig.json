@@ -2,11 +2,17 @@
   "version": "2.0.10",
   "compilerOptions": {
     // "target": "es5",
+    // "target": "es6",
+
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+
     "target": "es6",
     "outDir": "lib",
     "sourceMap": false,
     "declaration": true,
     // "module": "es6",
+    // "module": "commonjs",
     "removeComments": false,
     "strictNullChecks": true,
     "noImplicitReturns": true,
@@ -21,8 +27,8 @@
   },
   "exclude": [
     "node_modules",
-    "test",
+    "__tests__",
     "lib",
     ".build"
-  ]
+  ],
 }
