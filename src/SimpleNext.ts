@@ -1,5 +1,5 @@
 export interface ISimpleNext {
-  add(fn: () => {});
+  add(fn: (rs: (res: any) => void, rj: () => void) => {});
   next();
   hasNext();
 }
