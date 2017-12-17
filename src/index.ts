@@ -31,10 +31,14 @@ export default class DeferMap implements IDeferMap {
 
   private fn: () => {};
 
-  constructor(iterable: Iterable, fn: () => {}, opts: number | { timeout: number } | undefined) {
+  constructor(
+    iterable: Iterable,
+    fn: () => {},
+    opts: number | { timeout: number } | undefined,
+  ) {
     this.queue = new SimpleNext();
     this.runningCount = 0;
-    this.concurrency = 0;
+    this.concurrency = 1;
     this.totalCount = 0;
 
     this.iterable = iterable;
@@ -57,54 +61,36 @@ export default class DeferMap implements IDeferMap {
 
   public then(cb) {
     return new Promise((resolve, reject) => {
-      const exec = new Promise((onFulfill: (res: any) => void , onReject: () => void) => {
-        for (const value of this.iterable) {
-          this.queue.add(this.wrapper(value, this.totalCount, onFulfill, onReject));
-          this.totalCount++;
-        }
 
-        // change to loop check for multiple concurrency
-        if (this.queue.hasNext() && (this.runningCount < this.concurrency)) {
-          this.queue.next().call(null);
-        }
-      });
+      for (const value of this.iterable) {
+        this.queue.add(this.wrapper(value, this.totalCount, resolve, reject));
+        this.totalCount++;
+      }
 
-      exec.then((res) => {
-        cb(res);
-        resolve(res);
-      }, () => {
-        reject();
-      });
+      if (this.queue.hasNext() && (this.runningCount < this.concurrency)) {
+        this.queue.next().call(null);
+      }
     });
   }
 
+  // only to exec function, and trigger next function
+  // return a function, then this function should return promise
   public wrapper(value: any, key: number, rs: (res: any) => void, rj: () => void) {
     const m: any = value;
     const n: any = key;
 
     return () => {
       return new Promise((resolve) => {
-        const normal = () => {
-          this.result[n] = this.fn.apply(null, [m, n]);
-
-          if (this.queue.hasNext()) {
-            this.queue.next().call(null);
-          }
-
-          resolve();
-
-          if (this.result.length === this.totalCount) {
-            rs(this.result);
-          }
-        };
-
-        if (n === 0) {
-          return normal();
+        this.result[n] = this.fn.apply(null, [m, n]);
+        resolve();
+        if (this.result.length === this.totalCount) {
+          rs(this.result);
+          return;
         }
 
-        setTimeout(() => {
-          normal();
-        }, this.timeout);
+        if (this.queue.hasNext()) {
+          this.queue.next().call(null);
+        }
       });
     };
   }

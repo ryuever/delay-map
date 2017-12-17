@@ -1,7 +1,5 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
 
-console.log('hee');
-
 const tsc = require('typescript');
 const tsConfig = require('./tsconfig.json');
 

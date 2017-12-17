@@ -18,6 +18,7 @@ module.exports = {
   },
   "transform": {
     // "^.+\\.jsx?$": "ts-jest",
+    // "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js",
     "^.+\\.tsx?$": "ts-jest",
     "^.+\\.jsx?$": "babel-jest",
     // "^.+\\.tsx?$": "ts-jest"
