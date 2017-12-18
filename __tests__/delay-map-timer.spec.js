@@ -1,9 +1,10 @@
 import DeferMap from "../src";
 
-describe("timeout testing", function() {
-  jest.useFakeTimers();
+describe("timeout testing", () => {
 
   test("By default, map function will be triggered after every 300ms", () => {
+    jest.useFakeTimers();
+
     const res = new DeferMap([1, 2, 3], (i, key) => {
       return i;
     }).then();

@@ -9,7 +9,7 @@ export interface IDeferMapOptions {
 export interface IDeferMap {
   wrapper(value: any, key: number);
 
-  then(cb: () => any);
+  then(onFulfilled: () => {}, onRejected: () => {});
 }
 
 export default class DeferMap implements IDeferMap {
@@ -57,10 +57,19 @@ export default class DeferMap implements IDeferMap {
     this.initWrappers();
   }
 
-  public then(cb) {
+  public then(onFulfilled, onRejected) {
     return new Promise((resolve, reject) => {
+      const watchResolve = (res) => {
+        resolve(onFulfilled(res));
+      };
+
+      const watchReject = () => {
+        reject();
+        // reject(onRejected())
+      };
+
       if (this.queue.hasNext() && (this.runningCount < this.concurrency)) {
-        this.queue.next().call(null, resolve, reject);
+        this.queue.next().call(null, watchResolve, watchReject);
       }
     });
   }
@@ -90,10 +99,6 @@ export default class DeferMap implements IDeferMap {
     };
   }
 
-  // 其实现在lazy的一个方式就是通过返回一个function
-  // 另一个lazy的方式，不是到是不是可以通过new Function的方式来实现，比如下面的形式在我们进行initWrappers
-  // 的时候不是返回一个函数，而是直接直接了那个逻辑，现在的问题就是resolve, reject需要外部来传入的；
-  // 他们应该是运行的时候才会有的这个怎么搞。
   private initWrappers() {
     for (const value of this.iterable) {
       this.queue.add(this.wrapper(value, this.totalCount));
