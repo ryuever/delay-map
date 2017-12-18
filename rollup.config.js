@@ -4,9 +4,9 @@ import babel from 'rollup-plugin-babel';
 import typescript from 'rollup-plugin-typescript';
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: {
-    file: 'dalay-map.js',
+    file: 'lib/delay-map.js',
     format: 'cjs'
   },
   plugins: [
@@ -20,7 +20,7 @@ export default {
         }]
       ],
       "plugins": ["external-helpers"],
-      exclude: 'node_modules/**' // only transpile our source code
+      exclude: 'node_modules/**'
     })
   ]
 };

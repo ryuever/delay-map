@@ -1,12 +1,6 @@
 import SimpleNext from "./SimpleNext";
-
-import {
-  ISimpleNext,
-} from "./SimpleNext";
-
-import {
-  Iterable,
-} from "./utils/iterable";
+import { ISimpleNext } from "./SimpleNext";
+import { Iterable } from "./utils/iterable";
 
 export interface IDeferMapOptions {
   timeout: number | { timeout: number };

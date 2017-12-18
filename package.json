@@ -2,10 +2,10 @@
   "name": "delay-map",
   "version": "1.0.0",
   "description": "In order to execute `map` with `timeout` param",
-  "main": "index.js",
+  "main": "lib/delay-map.js",
   "scripts": {
     "test": "jest",
-    "build": "rollup -c --environment INCLUDE_DEPS,BUILD:production"
+    "build": "rimraf lib && rollup -c --environment INCLUDE_DEPS,BUILD:production"
   },
   "author": "ryuyutyo <liuyouchao111@gmail.com>",
   "license": "MIT",

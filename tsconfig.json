@@ -1,8 +1,6 @@
 {
   "version": "2.0.10",
   "compilerOptions": {
-    // "target": "es5",
-    // "target": "es6",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
 
@@ -10,19 +8,12 @@
     "outDir": "lib",
     "sourceMap": false,
     "declaration": true,
-    // "module": "es6",
-    // "module": "commonjs",
     "removeComments": false,
     "strictNullChecks": true,
     "noImplicitReturns": true,
     "noImplicitUseStrict": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
-    // "lib": [
-    //   "es2015",
-    //   "dom",
-    //   "es2015.symbol",
-    // ]
   },
   "exclude": [
     "node_modules",
