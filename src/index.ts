@@ -13,7 +13,6 @@ export interface IDeferMapOptions {
 }
 
 export interface IDeferMap {
-  // wrapper(value: any, key: number, rs: (res: any) => {}, rj: () => {});
   wrapper(value: any, key: number);
 
   then(cb: () => any);
@@ -51,7 +50,7 @@ export default class DeferMap implements IDeferMap {
     }
 
     if (typeof opts === "undefined") {
-      this.timeout = 2000;
+      this.timeout = 300;
     }
 
     if (typeof opts === "object") {
