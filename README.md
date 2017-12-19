@@ -2,7 +2,7 @@
 
 In order to delay map func running with a timeout.
 
-Basically, `iterable` object passed to map function will be executed one after another immediately. there is a situation you want to simluate a running with timeout. such as the next one should run with `300ms` delay.
+Basically, _iterable_ object passed to map function will be executed one after another immediately. there is a situation you want to simluate a running with timeout. such as the next one should run with _300ms_ delay.
 
 ## Usage
 
@@ -19,7 +19,7 @@ dm.then((res) => {
   console.log('res ', res);
 })
 
-// res: [5, 9, 12]
+// res: [5, 9, 11]
 ```
 
 ## API

@@ -25,5 +25,20 @@
     "rollup-plugin-typescript": "^0.8.1",
     "ts-jest": "^21.2.4",
     "typescript": "^2.6.2"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryuever/delay-map.git"
+  },
+  "keywords": [
+    "map",
+    "delay"
+  ],
+  "bugs": {
+    "url": "https://github.com/ryuever/delay-map/issues"
+  },
+  "homepage": "https://github.com/ryuever/delay-map#readme"
 }
